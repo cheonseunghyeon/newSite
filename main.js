@@ -3,7 +3,7 @@ var fs = require("fs");
 var url = require("url");
 var qs = require('querystring');
 
-function templateHTML(title,list,body){
+function templateHTML(title,list,body,control){
   return `
   <!doctype html>
 <html>
@@ -14,8 +14,7 @@ function templateHTML(title,list,body){
 <body>
 <h1><a href="/">WEB</a></h1>
 ${list}
-<a href = '/create'>create</a> 
-<a href = '/update'>update</a> 
+${control}
 ${body}
 </body>
 </html>
@@ -45,7 +44,8 @@ var app = http.createServer(function (request, response) {
 
         var list = templateList(filelist);
         var template = templateHTML(title,list,
-          `<h2>${title}</h2>${description}`);
+          `<h2>${title}</h2>${description}`,
+          `<a href = '/create'>create</a>`);
 
         response.writeHead(200);
         response.end(template);
@@ -56,7 +56,9 @@ var app = http.createServer(function (request, response) {
           var title = queryData.id;
           var list = templateList(filelist);
           var template = templateHTML(title,list,
-            `<h2>${title}</h2>${description}`);
+            `<h2>${title}</h2>${description}`,
+            `<a href = '/create'>create</a> 
+            <a href = '/update'>update</a>`);
 
           response.writeHead(200);
           response.end(template);
